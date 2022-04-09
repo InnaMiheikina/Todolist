@@ -1,72 +1,58 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "../App";
 import s from './Todolist.module.css';
-import {Input} from "./Input";
-import {MyButton} from "./MyButton";
+import {InputAndButton} from "./InputAndButton";
+import {InputOnSpan} from "./InputOnSpan";
 
 type TodolistPropsType = {
     todolistId: string,
-    title: string,
+    title2: string,
     tasks: Array<TaskType>
     deleteTask: (todolistId:string , newId: string) => void
     tasksFilter: (todolistId:string, value: FilterValuesType) => void
-    addTask: (title: string ,todolistId:string) => void
+    addTask: (newTaskTitle1: string ,todolistId:string) => void
     changeStatus: (todolistId:string, taskId: string, isDone: boolean) => void
     valueButton: FilterValuesType //подсвечивать кнопку
+    removeTodolist:(todolistId: string) => void;
+    changeTaskTitle:(id: string, todolistId:string, title:string) => void
+    changeTodolistTitle:(id:string, newTaskTitle2: string)=> void
 }
 
 type TaskType = {
     id: string,
-    title: string,
+    title1: string,
     isDone: boolean
 }
 
 export const Todolist = (props: TodolistPropsType) => {
-    const [newTaskTitle, setNewTaskTitle] = useState(' ');
-    const [error, setError] = useState<string | null>(null)
 
-    const addTask = () => {
-        debugger
-        if (newTaskTitle.trim() !== "") {    //trim обрезает пробелы по краям
-            props.addTask(newTaskTitle.trim(), props.todolistId);
-            setNewTaskTitle('')
-        } else {
-            setError('Title is required');
-        }
-        console.log(newTaskTitle)
-    }
-    const onAllClickHandler = () => {
-        props.tasksFilter(props.todolistId,'all')
-    };
-    const onActiveClickHandler = () => {
-        props.tasksFilter(props.todolistId,'active')
-    };
-    const onCompletedClickHandler = () => {
-        props.tasksFilter(props.todolistId,'completed')
-    };
+    const onAllClickHandler = () => {props.tasksFilter(props.todolistId,'all')};
+    const onActiveClickHandler = () => {props.tasksFilter(props.todolistId,'active')};
+    const onCompletedClickHandler = () => {props.tasksFilter(props.todolistId,'completed')};
 
+const addTask = (newTaskTitle1:string)=> {props.addTask(newTaskTitle1,props.todolistId)}
     return (
         <div>
-            <h3>{props.title}</h3>
-            <div>
-                <Input value={newTaskTitle} setError={setError} setNewTaskTitle={setNewTaskTitle}
-                       newTaskTitle={newTaskTitle} callback={addTask} className={error ? `${s.error}` : ""}/>
-               <MyButton name={'+'} callback = {addTask} />
-                {error && <div className={s.errorMessage}>{error}</div>}
-            </div>
+            <h3><InputOnSpan newTaskTitle={props.title2} callBack={()=> {} } />
+                <button onClick={()=>props.removeTodolist(props.todolistId)}>x</button>
+            </h3>
+           <InputAndButton  callback={addTask} />
             <ul>
                 {props.tasks.map((el, index) => {
                     const onRemoveHandler = () => {props.deleteTask(props.todolistId,el.id)}
                     const onChangeHandler = (id: string, event: ChangeEvent<HTMLInputElement>) => {
                         props.changeStatus(props.todolistId, id, event.currentTarget.checked)
                     } // вызывает фуекция isDone
+                    const changeTaskTitle = (title: string)=> {
+                        props.changeTaskTitle(el.id,  props.todolistId, title )
+                    }
                     return (
                         <li key={index}>
                             <input type='checkbox' checked={el.isDone} //галачка
                                    onChange={(e) => onChangeHandler(el.id, e )}/>
+                            <InputOnSpan newTaskTitle={el.title1} callBack={changeTaskTitle} />
                             <button onClick={onRemoveHandler}>х</button>
                             {/*el.id то что кидаем в функцию*/}
-                            <span>{el.title}</span>
                         </li>
                     )
                 })
