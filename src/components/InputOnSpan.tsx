@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import {TextField} from "@material-ui/core";
 
 type InputOnSpanType = {
-    newTaskTitle: string //title из таски и тдлисиста
+    title: string //title из таски и тдлисиста
     callBack:(title:string)=> void //передает title вверх который только что напечатался
     classes: string
 }
@@ -13,10 +13,11 @@ export const InputOnSpan = (props: InputOnSpanType) => {
 
     const onActive = () => {
         setActive(true)
-        setTitle(props.newTaskTitle) //первоначальное засетай то что есть
+        setTitle(props.title) //первоначальное засетай то что есть
     }
-    const offActive = () => {setActive(false)
-        props.callBack(title)
+    const offActive = () => {
+        setActive(false)
+        props.callBack(title)//ф-я меняет тайтл
     }
     const onchangeInput = (e:ChangeEvent<HTMLInputElement>) => {setTitle(e.currentTarget.value)}
 
@@ -27,7 +28,7 @@ export const InputOnSpan = (props: InputOnSpanType) => {
                 value={title}
             onChange={onchangeInput}
             autoFocus onBlur={offActive}  />
-            : <span style={{fontWeight:'bold'}} onDoubleClick={onActive}>{props.newTaskTitle}</span>
+            : <span style={{fontWeight:'bold'}} onDoubleClick={onActive}>{props.title}</span>
     );
 }
 //onBlur --кликаем мимо и деактив

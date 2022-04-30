@@ -11,7 +11,7 @@ type TodolistPropsType = {
     tasks: Array<TaskType>
     deleteTask: (todolistId: string, newId: string) => void
     tasksFilter: (todolistId: string, value: FilterValuesType) => void
-    addTask: (newTaskTitle1: string, todolistId: string) => void
+    addTask: (newTaskTitle: string, todolistId: string) => void
     changeStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     valueButton: FilterValuesType //подсвечивать кнопку
     removeTodolist: (todolistId: string) => void;
@@ -19,7 +19,7 @@ type TodolistPropsType = {
     changeTodolistTitle: (id: string, newTaskTitle2: string) => void
 }
 
-type TaskType = {
+export type TaskType = {
     id: string,
     title1: string,
     isDone: boolean
@@ -35,14 +35,14 @@ export const Todolist = (props: TodolistPropsType) => {
     const onCompletedClickHandler = () => {
         props.tasksFilter(props.todolistId, 'completed')
     };
-    const addTask = (newTaskTitle1: string) => {
-        props.addTask(newTaskTitle1, props.todolistId)
+    const addTask = (newTaskTitle: string) => {
+        props.addTask(newTaskTitle, props.todolistId)
     }
 
     return (
         <div>
             <Typography variant={'h5'}>
-                <InputOnSpan newTaskTitle={props.title2} callBack={() => {
+                <InputOnSpan title={props.title2} callBack={() => {
                 }} classes={''}/>
                 <Button onClick={() => props.removeTodolist(props.todolistId)}>
                     <HighlightOff/>
@@ -69,7 +69,7 @@ export const Todolist = (props: TodolistPropsType) => {
                                 onChange={onChangeHandler}
                             />
                             <InputOnSpan
-                                newTaskTitle={el.title1}
+                                title={el.title1}
                                 callBack={changeTaskTitle}
                                 classes={el.isDone ? "is-done" : ""}
                             />

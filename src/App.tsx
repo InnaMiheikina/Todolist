@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-import {Todolist} from "./components/Todolist";
+import {TaskType, Todolist} from "./components/Todolist";
 import {useState} from "react";
 import {v1} from "uuid";
 import {InputAndButton} from "./components/InputAndButton";
@@ -16,6 +16,10 @@ export type TodolistType = {
 }
 let todolistId_1 = v1();
 let todolistId_2 = v1();
+
+export type  TasksStateType = {
+[todolistId:string]:TaskType[]
+}
 
 function App() {
     let [todolists, setTodolists] = useState<Array<TodolistType>>([
@@ -34,7 +38,10 @@ function App() {
             {id: v1(), title1: "ReactJS", isDone: false}]
     })
 
-
+    const changeStatus = (todolistId: string, taskId: string, isDone: boolean) => {
+        debugger
+        setTasks1({...tasks1,[todolistId]: tasks1[todolistId].map(t => t.id === taskId ? {...t, isDone} : t)})
+    }
     const deleteTask = (todolistId: string, newId: string) => { //остановить машину с номером newId.фун-я прокидывается как кулбэк
         let filteredTasks = (tasks1[todolistId].filter(el => el.id !== newId));  /*функция для удаления,вызывается после какойто логики*/
         setTasks1({...tasks1, [todolistId]: filteredTasks});
@@ -47,13 +54,14 @@ function App() {
         }
         setTasks1({...tasks1, [todolistId]: [newTask, ...tasks1[todolistId]]})
     }
-    const changeStatus = (todolistId: string, taskId: string, isDone: boolean) => {
-        debugger
-        setTasks1({...tasks1,[todolistId]: tasks1[todolistId].map(t => t.id === taskId ? {...t, isDone} : t)})
+    const changeTaskTitle = (id: string, todolistId: string, newTaskTitle1: string) => {
+        setTasks1({
+            ...tasks1,
+            [todolistId]: tasks1[todolistId].map(t => t.id === id ? {...t, title1: newTaskTitle1} : t)
+        })
     }
-    const tasksFilter = (todolistId: string, value: FilterValuesType) => { //функция перебирает значения Value=одно из значений
-        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, valueButton: value} : tl))//ьеняем фильтр в тудулист
-    }
+
+
     const addTodolist = (newTaskTitle2: string) => {
         const newTodolistId = v1();
         const newTodolist: TodolistType = {
@@ -69,15 +77,13 @@ function App() {
         delete tasks1[todolistId];
         setTasks1({...tasks1})
     }
-    const changeTaskTitle = (id: string, todolistId: string, newTaskTitle1: string) => {
-        setTasks1({
-            ...tasks1,
-            [todolistId]: tasks1[todolistId].map(t => t.id === id ? {...t, title1: newTaskTitle1} : t)
-        })
-    }
     const changeTodolistTitle = (todolistId: string, title: string) => {
         setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title} : tl)) //title пришел снизу
     }
+    const tasksFilter = (todolistId: string, value: FilterValuesType) => { //функция перебирает значения Value=одно из значений
+        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, valueButton: value} : tl))//ьеняем фильтр в тудулист
+    }
+
 
     const todolistComponents = todolists.map(tl => {
         let prokladka = tasks1[tl.id] //пишется всегда// тоже самое что filteredTasks
