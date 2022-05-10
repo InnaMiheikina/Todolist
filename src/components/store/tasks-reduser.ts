@@ -1,6 +1,7 @@
-import { TasksStateType} from "../../App";
+
 import {v1} from "uuid";
-import {AddTodolistAT, RemoveTodolistAT} from "./todolists-reducer";
+import {AddTodolistAT, RemoveTodolistAT, todolistId_1, todolistId_2} from "./todolists-reducer";
+import {TasksStateType} from "../../AppRedux";
 
 type DeleteTaskAT= {
     type: 'DELETE-TASK'
@@ -27,7 +28,19 @@ type ChangeTaskTitleAT = {
 
 type ActionType = DeleteTaskAT | AddTaskAT | TaskStatusAT | ChangeTaskTitleAT| AddTodolistAT | RemoveTodolistAT
 
-export const tasksReducer = (state:TasksStateType, action:ActionType): TasksStateType => {
+export const initialState:TasksStateType = {
+    [todolistId_1]: [
+        {id: v1(), title1: "HTML&CSSxx", isDone: true},
+        {id: v1(), title1: "JSxx", isDone: true},
+        {id: v1(), title1: "ReactJSxxxx", isDone: false}
+    ],
+    [todolistId_2]: [
+        {id: v1(), title1: "HTML&CSS", isDone: true},
+        {id: v1(), title1: "JS", isDone: true},
+        {id: v1(), title1: "ReactJS", isDone: false}
+    ]
+}
+export const tasksReducer = (state=initialState, action:ActionType): TasksStateType => {
 switch (action.type) {
     case 'DELETE-TASK':
         return {

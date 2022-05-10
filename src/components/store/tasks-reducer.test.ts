@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {v1} from "uuid";
-import {TasksStateType} from "../../App";
 import {addTaskAC, changeTitleTaskAC, deleteTaskAC, tasksReducer, taskStatusAC} from "./tasks-reduser";
 import {addTodolistAC, RemoveTodolistAC} from "./todolists-reducer";
+import {TasksStateType} from "../../AppRedux";
 
 
 

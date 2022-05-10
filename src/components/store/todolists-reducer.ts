@@ -1,5 +1,6 @@
-import {FilterValuesType,TodolistType } from "../../App";
+
 import {v1} from "uuid";
+import {FilterValuesType} from "../../AppRedux";
 
 export type AddTodolistAT = {
     type:'ADD-TODOLIST'
@@ -20,10 +21,20 @@ type ChangeFilterAT = {
     filter: FilterValuesType
     id: string
 }
+export type TodolistType = {
+    id: string
+    title2: string
+    valueButton: FilterValuesType
+}
 export type ActionType = AddTodolistAT | RemoveTodolistAT |ChangeTitleTodolistAT|ChangeFilterAT
+export let todolistId_1 = v1();
+export let todolistId_2 = v1();
+ export const  initialState:Array<TodolistType> = [
+    {id: todolistId_1, title2: 'hello world', valueButton: 'all'},
+    {id: todolistId_2, title2: 'hello', valueButton: 'all'}
+]
 
-
-export const todolistsReducer = (todolists: Array<TodolistType>, action: ActionType): Array<TodolistType> => {
+export const todolistsReducer = (state=initialState, action: ActionType): Array<TodolistType> => {
         switch (action.type) {
             case "ADD-TODOLIST":
                 let newTodolist:TodolistType ={
@@ -31,14 +42,14 @@ export const todolistsReducer = (todolists: Array<TodolistType>, action: ActionT
                     title2: action.title,
                     valueButton:'all'
                 }
-                return [ newTodolist, ...todolists]
+                return [ newTodolist, ...state]
             case "REMOVE-TODOLIST":
-                return todolists.filter(tl=> tl.id !== action.id )
+                return state.filter(tl=> tl.id !== action.id )
             case "CHANGE-TODOLIST-TITLE":
-                return todolists.map(t=> t.id === action.id ? {...t, title2:action.title} : t)
+                return state.map(t=> t.id === action.id ? {...t, title2:action.title} : t)
             case "CHANGE-TODOLIST-FILTER":
-                return todolists.map(tl => tl.id === action.id ? {...tl, valueButton: action.filter} : tl)
-            default: return todolists
+                return state.map(tl => tl.id === action.id ? {...tl, valueButton: action.filter} : tl)
+            default: return state
         }
     }
 
