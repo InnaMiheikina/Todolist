@@ -1,5 +1,5 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {AddToPhotosOutlined, PlaylistAddTwoTone} from "@material-ui/icons";
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
+import {AddToPhotosOutlined} from "@material-ui/icons";
 import {TextField} from "@material-ui/core";
 
 
@@ -7,7 +7,7 @@ type InputPropsType = {
     callback: (newTaskTitle: string) => void
 }
 
-export const InputAndButton = (props: InputPropsType) => {
+export const InputAndButton = memo((props: InputPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('');
     const [error, setError] = useState<string | null>(null)
 
@@ -32,11 +32,11 @@ export const InputAndButton = (props: InputPropsType) => {
     }
 
     return (
-        <div style={{display:'flex', alignItems: 'center'}}>
+        <div style={{display: 'flex', alignItems: 'center'}}>
             <TextField
-            size={'small'}
-            variant={'outlined'}
-            label={'Title'}
+                size={'small'}
+                variant={'outlined'}
+                label={'Title'}
                 value={newTaskTitle}      /*начальное значение*///добавление в массив
                 onChange={onNewTitleChangeHandler}    /*обработчик события со значением*/
                 onKeyPress={onKeyPressHandler}
@@ -47,4 +47,4 @@ export const InputAndButton = (props: InputPropsType) => {
             {error && <div className="error-message">{error}</div>}
         </div>
     )
-}
+})

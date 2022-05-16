@@ -53,7 +53,8 @@ switch (action.type) {
             [action.todolistId]: [{id: v1(), title1:action.title, isDone: false}, ...state[action.todolistId]]
         }
     case 'TASK-STATUS':
-        return <TasksStateType>{
+        debugger
+        return {
             ...state,
             [action.todolistId]: state[action.todolistId].map(t => t.id === action.id ? {
                 ...t,

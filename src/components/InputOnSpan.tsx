@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 import {TextField} from "@material-ui/core";
 
 type InputOnSpanType = {
@@ -7,7 +7,7 @@ type InputOnSpanType = {
     classes: string
 }
 
-export const InputOnSpan = (props: InputOnSpanType) => {
+export const InputOnSpan = memo((props: InputOnSpanType) => {
     let [title, setTitle] = useState('')
     let [active, setActive] = useState<boolean>(false)
 
@@ -30,6 +30,6 @@ export const InputOnSpan = (props: InputOnSpanType) => {
             autoFocus onBlur={offActive}  />
             : <span style={{fontWeight:'bold'}} onDoubleClick={onActive}>{props.title}</span>
     );
-}
+})
 //onBlur --кликаем мимо и деактив
 //autoFocus -- когда импут активируется фокус уже твм

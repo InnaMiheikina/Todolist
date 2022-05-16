@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo, useCallback} from "react";
 import './App.css';
 import {TaskType, Todolist} from "./components/Todolist";
 import {InputAndButton} from "./components/InputAndButton";
@@ -20,11 +20,9 @@ function AppRedux() {
    let todolists = useSelector<AppRootStateType,Array<TodolistType>>(state=>state.todolists)
     let dispatch = useDispatch()
 
-    const addTodolist = (newTaskTitle2: string) => {
+    const addTodolist = useCallback( (newTaskTitle2: string) => {
        dispatch(addTodolistAC(newTaskTitle2))
-    }
-
-
+    }, [dispatch])
 
     const todolistComponents = todolists.map(tl =>{
         return (
@@ -65,5 +63,5 @@ function AppRedux() {
     )
 }
 
-export default AppRedux;
+export default memo(AppRedux);
 
