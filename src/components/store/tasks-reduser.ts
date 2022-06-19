@@ -87,4 +87,4 @@ switch (action.type) {
 export const deleteTaskAC = (id:string,todolistId:string):DeleteTaskAT => ({type: 'DELETE-TASK', id, todolistId})
 export const addTaskAC = (todolistId:string, title: string):AddTaskAT => ({  type: 'ADD-TASK', todolistId, title})
 export const taskStatusAC = (todolistId:string, isDone: boolean, id:string): TaskStatusAT=> ({type: 'TASK-STATUS', todolistId,id, isDone})
-export const changeTitleTaskAC = (todolistId:string, title: string, id:string): ChangeTaskTitleAT=> ({type: 'TASK-TITLE', todolistId, title, id})
+export const changeTitleTaskAC = (id:string, title: string, todolistId:string): ChangeTaskTitleAT=> ({type: 'TASK-TITLE', todolistId, title, id})
