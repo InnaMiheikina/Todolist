@@ -1,14 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import { Button } from './Button';
-import {InputAndButton} from "../components/InputAndButton";
-import {action} from "@storybook/addon-actions";
 import Task from "../components/store/task";
-import {TaskType} from "../components/Todolist";
-import {Provider, useSelector} from "react-redux";
-import {AppRootStateType, store} from "../components/store/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../components/store/store";
 import {ReduxStoreProviderDecorator} from "../components/store/ReduxStoreProviderDecorator";
+import {TaskType} from "../components/api/tasks-api";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -40,11 +36,11 @@ TaskWithDispatchStories.args = {}
 
 // // More on args: https://storybook.js.org/docs/react/writing-stories/args
 // TaskIsDoneStories.args = {
-//     task:{id:'bvc', isDone:true, title1:'js'}
+//     task:{id:'bvc', isDone:true, title:'js'}
 // };//пропсы из компоненты
 //
 // export const TaskIsNotDoneStories = Template.bind({});
 // // More on args: https://storybook.js.org/docs/react/writing-stories/args
 // TaskIsNotDoneStories.args = {
-//     task: {id: 'ghj', isDone: false, title1: 'bhjk'}
+//     task: {id: 'ghj', isDone: false, title: 'bhjk'}
 //}

@@ -1,30 +1,33 @@
-import React, {memo, useCallback} from "react";
+import React, {memo, useCallback, useEffect} from "react";
 import './App.css';
-import {TaskType, Todolist} from "./components/Todolist";
+import {Todolist} from "./components/Todolist";
 import {InputAndButton} from "./components/InputAndButton";
 import {AppBar, Avatar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./components/store/store";
-import {addTodolistAC, TodolistType} from "./components/store/todolists-reducer";
+import {AppRootStateType, useAppDispatch} from "./components/store/store";
+import {addTodolistTC, setTodolistTC, TodolistDomainType} from "./components/store/todolists-reducer";
+import {useSelector} from "react-redux";
+import {TaskType} from "./components/api/tasks-api";
 
 
-
-export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export type  TasksStateType = {
-[todolistId:string]:TaskType[]
+    [todolistId: string]: TaskType[]
 }
 
-function AppRedux() {
-   let todolists = useSelector<AppRootStateType,Array<TodolistType>>(state=>state.todolists)
-    let dispatch = useDispatch()
+function App() {
+    let todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
+    let dispatch = useAppDispatch()
 
-    const addTodolist = useCallback( (newTaskTitle2: string) => {
-       dispatch(addTodolistAC(newTaskTitle2))
+    const addTodolist = useCallback((title:string) => {
+       dispatch(addTodolistTC(title))
     }, [dispatch])
 
-    const todolistComponents = todolists.map(tl =>{
+    useEffect(() => {
+        dispatch(setTodolistTC)
+    }, [])
+
+ const todolistComponents = todolists.map(tl => {
         return (
             <Grid item key={tl.id}>
                 <Paper elevation={8} style={{padding: '20px', maxWidth: '300px'}}>
@@ -63,5 +66,5 @@ function AppRedux() {
     )
 }
 
-export default memo(AppRedux);
+export default memo(App);
 

@@ -1,12 +1,14 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import {combineReducers,  legacy_createStore} from 'redux'
+import {combineReducers, legacy_createStore} from 'redux'
 
 import {v1} from 'uuid'
-import {tasksReducer} from "./tasks-reduser";
+
 import {todolistsReducer} from "./todolists-reducer";
 import {AppRootStateType} from "./store";
-
+import {tasksReducer} from "./tasks-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
+import {number, string} from "prop-types";
 
 
 const rootReducer = combineReducers({
@@ -14,19 +16,23 @@ const rootReducer = combineReducers({
     todolists:todolistsReducer
 })
 
-const initialGlobalState = {
+const initialGlobalState: AppRootStateType = {
     todolists: [
-        {id: "todolistId1", title2: "What to learn", valueButton: "all"},
-        {id: "todolistId2", title2: "What to buy", valueButton: "all"}
+        /*{id: "todolistId1", title: "What to learn", filter: "all"},
+        {id: "todolistId2", title: "What to buy", filter: "all"}*/
     ] ,
     tasks: {
         ["todolistId1"]: [
-            {id: v1(), title1: "HTML&CSS", isDone: true},
-            {id: v1(), title1: "JS", isDone: true}
+            {id: v1(), title: "HTML&CSS", status:TaskStatuses.New, addedDate:'', deadline:'', description:'',
+                order:0, priority: TaskPriorities.Low, startDate: '', todoListId:"todolistId1"},
+            {id: v1(), title: "JS", status:TaskStatuses.New, addedDate:'', deadline:'', description:'',
+                order:0, priority: TaskPriorities.Low, startDate: '', todoListId:"todolistId1"},
         ],
         ["todolistId2"]: [
-            {id: v1(), title1: "Milk", isDone: true},
-            {id: v1(), title1: "React Book", isDone: true}
+            {id: v1(), title: "Milk", status:TaskStatuses.New, addedDate:'', deadline:'', description:'',
+                order:0, priority: TaskPriorities.Low, startDate: '', todoListId:"todolistId1"},
+            {id: v1(), title: "React Book", status:TaskStatuses.New, addedDate:'', deadline:'', description:'',
+                order:0, priority: TaskPriorities.Low, startDate: '', todoListId:"todolistId1"},
         ]
     }
 };

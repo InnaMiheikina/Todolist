@@ -1,10 +1,10 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
-import {changeTitleTaskAC, deleteTaskAC, taskStatusAC} from "./tasks-reduser";
 import {Button, Checkbox, ListItem} from "@material-ui/core";
 import {InputOnSpan} from "../InputOnSpan";
 import {HighlightOff} from "@material-ui/icons";
-import {TaskType} from "../Todolist";
-import {useDispatch} from "react-redux";
+import {deleteTaskAC, updateTasksTC} from "./tasks-reducer";
+import {TaskStatuses, TaskType} from "../api/tasks-api";
+import {useAppDispatch} from "./store";
 
 export type TaskTypeProps = {
     todolistId: string
@@ -13,29 +13,32 @@ export type TaskTypeProps = {
 
 const Task = (props:TaskTypeProps) => {
 
-    let dispatch = useDispatch()
-    let {id, title1, isDone} = props.task
+    let dispatch = useAppDispatch()
+    let {id, title: title, status} = props.task
+
     const onRemoveHandler = useCallback(() => {
         dispatch(deleteTaskAC(id, props.todolistId))
-    }, [dispatch])
+    }, [dispatch,id, props.todolistId])
+
     const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         let newIsDone = event.currentTarget.checked
-        dispatch(taskStatusAC(props.todolistId, newIsDone, id))
+        dispatch(updateTasksTC(id, props.todolistId,{status:newIsDone ? TaskStatuses.Completed:TaskStatuses.New}))
     } , [dispatch,props.todolistId, id])// вызывает фуекция isDone
-    const changeTaskTitle = useCallback( (newTaskTitle1: string) => {
-        dispatch(changeTitleTaskAC(id, newTaskTitle1, props.todolistId))
+
+    const changeTaskTitle = useCallback( (newTaskTitle: string) => {
+        dispatch(updateTasksTC(id,props.todolistId,{newTaskTitle}))
     }, [dispatch,id, props.todolistId ])
 
     return (
         <ListItem key={id} style={{padding: '0'}}>
             <Checkbox
-                checked={isDone}
+                checked={status===TaskStatuses.Completed}
                 onChange={onChangeHandler}
             />
             <InputOnSpan
-                title={title1}
+                title={title}
                 callBack={changeTaskTitle}
-                classes={isDone ? "is-done" : ""}
+                classes={status===TaskStatuses.Completed ? "is-done" : ""}
             />
             <Button onClick={onRemoveHandler}>
                 <HighlightOff/>

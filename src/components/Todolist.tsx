@@ -1,58 +1,68 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {InputAndButton} from "./InputAndButton";
 import {InputOnSpan} from "./InputOnSpan";
 import {HighlightOff} from "@material-ui/icons";
 import {Button, ButtonGroup, List, Typography} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
-import {changeFilterAC, changeTitleTodolistAC, RemoveTodolistAC, TodolistType} from "./store/todolists-reducer";
-import {addTaskAC,} from "./store/tasks-reduser";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./store/store";
+import {
+    changeFilterAC,
+    deleteTodolistTC,
+    TodolistDomainType,
+    updateTodolistTC
+} from "./store/todolists-reducer";
 import Task from "./store/task";
+import { addTasksTC, setTasksTC} from "./store/tasks-reducer";
+import {TaskStatuses, TaskType} from "./api/tasks-api";
+
 
 type TodolistPropsType = {
     todolistId: string
 }
-export type TaskType = {
-    id: string,
-    title1: string,
-    isDone: boolean
-}
+
 
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
-    const dispatch = useDispatch()
-    let todolists = useSelector<AppRootStateType, TodolistType>(state => state.todolists.filter(el => el.id === props.todolistId)[0])
+    const dispatch = useAppDispatch()
+    let todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists.filter(el => el.id === props.todolistId)[0])
+    let {id, title, filter} = todolist
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.todolistId])
-    let {id, title2, valueButton} = todolists
 
     let prokladka = tasks;
-    if (valueButton === 'active') {
-        prokladka = prokladka.filter(el => !el.isDone)
+    if (filter === 'active') {
+        prokladka = prokladka.filter(t => t.status===TaskStatuses.New)
     }
-    if (valueButton === 'completed') {
-        prokladka = prokladka.filter(el => el.isDone)
-
+    if (filter === 'completed') {
+        prokladka = prokladka.filter(t => t.status===TaskStatuses.Completed)
     }
 
     const changeTitleTodolist = useCallback((title: string) => {
-        dispatch(changeTitleTodolistAC(title, id))
+        dispatch(updateTodolistTC(title, props.todolistId))
     }, [dispatch, id])
-    const onAllClickHandler = useCallback(() =>{
+
+    const deleteTodolist = useCallback(() => {
+        dispatch(deleteTodolistTC(id))
+    }, [dispatch, id])
+
+    const onAllClickHandler = useCallback(() => {
         dispatch(changeFilterAC('all', id))
     }, [dispatch, 'all', id])
     const onActiveClickHandler = useCallback(() => dispatch(changeFilterAC('active', id)), [dispatch, 'active', id])
     const onCompletedClickHandler = useCallback(() => dispatch(changeFilterAC('completed', id)), [dispatch, 'completed', id])
 
-    const addTask = useCallback((newTaskTitle1: string) => {
-            dispatch(addTaskAC(id, newTaskTitle1))
+    const addTask = useCallback((newTaskTitle: string) => {
+            dispatch(addTasksTC(newTaskTitle,props.todolistId))
         }, [dispatch, id]
     )
+useEffect(()=> {
+    dispatch(setTasksTC(id))
+},[])
 
     return (
         <div>
             <Typography variant={'h5'}>
-                <InputOnSpan title={title2} callBack={changeTitleTodolist} classes={''}/>
-                <Button onClick={useCallback(() => dispatch(RemoveTodolistAC(id)), [dispatch, id])}>
+                <InputOnSpan title={title} callBack={changeTitleTodolist} classes={''}/>
+                <Button onClick={deleteTodolist}>
                     <HighlightOff/>
                 </Button>
             </Typography>
@@ -61,7 +71,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
             </div>
             <List>
                 {
-                    prokladka.map((el) => {
+                    prokladka && prokladka.map((el) => {
                         return (
                             <Task todolistId={id}
                                   task={el}
@@ -74,13 +84,13 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                 size={'small'}
                 variant={'contained'}
                 disableElevation>
-                <Button color="primary" className={valueButton === 'all' ? 'primary' : 'secondary'}
+                <Button color="primary" className={filter === 'all' ? 'primary' : 'secondary'}
                         onClick={onAllClickHandler}>All
                 </Button>
-                <Button color="primary" className={valueButton === 'active' ? 'primary' : 'secondary'}
+                <Button color="primary" className={filter === 'active' ? 'primary' : 'secondary'}
                         onClick={onActiveClickHandler}>Active
                 </Button>
-                <Button color="primary" className={valueButton === 'completed' ? 'primary' : 'secondary'}
+                <Button color="primary" className={filter === 'completed' ? 'primary' : 'secondary'}
                         onClick={onCompletedClickHandler}>Completed
                 </Button>
             </ButtonGroup>
