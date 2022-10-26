@@ -1,10 +1,12 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Task from "../components/store/task";
+import Task from "../components/task";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../components/store/store";
 import {ReduxStoreProviderDecorator} from "../components/store/ReduxStoreProviderDecorator";
-import {TaskType} from "../components/api/tasks-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/tasks-api";
+import {action} from "@storybook/addon-actions";
+
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -18,29 +20,29 @@ args:{
 
 } as ComponentMeta<typeof Task>;
 
+const changeTaskStatusCallBack = action('status changed inside Task')
+const changeTaskTitleCallBack = action('title changed inside Task')
+const removeTaskCallBack = action('remove button  inside Task was clicked')
 
-const TaskWithDispatch = () => {
-    const task = useSelector<AppRootStateType, TaskType>(state => state.tasks['todolistId2'][0])
-
-    return <Task
-        task={task}
-        todolistId={'todolistId2'}
-    />
+const baseArgs = {
+    changeTaskStatus:changeTaskStatusCallBack,
+    changeTaskTitle:changeTaskTitleCallBack,
+    removeTask:removeTaskCallBack
 }
 
+
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof TaskWithDispatch> = (args) => <TaskWithDispatch  />;
+const Template: ComponentStory<typeof Task> = (args) => <Task {...args}  />;
 
- export const TaskWithDispatchStories = Template.bind({});
-TaskWithDispatchStories.args = {}
-
-// // More on args: https://storybook.js.org/docs/react/writing-stories/args
-// TaskIsDoneStories.args = {
-//     task:{id:'bvc', isDone:true, title:'js'}
-// };//пропсы из компоненты
-//
-// export const TaskIsNotDoneStories = Template.bind({});
-// // More on args: https://storybook.js.org/docs/react/writing-stories/args
-// TaskIsNotDoneStories.args = {
-//     task: {id: 'ghj', isDone: false, title: 'bhjk'}
-//}
+ export const TaskIsDone = Template.bind({});
+TaskIsDone.args = {
+    ...baseArgs,
+    task:{id:'1', title:'kjjj',addedDate: '', deadline: '', description: '', order: 0, priority: 0,
+        startDate: '', status: 2, todoListId: 'todolistId1'}
+}
+export const TaskIsNotDone = Template.bind({});
+TaskIsNotDone.args = {
+    ...baseArgs,
+    task:{id:'1', title:'kjjj',addedDate: '', deadline: '', description: '', order: 0, priority: 0,
+        startDate: '', status: 0, todoListId: 'todolistId1'}
+}

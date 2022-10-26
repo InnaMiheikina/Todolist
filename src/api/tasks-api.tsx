@@ -48,7 +48,7 @@ export type ResponseType <D = {}> = {
 }
 
 export const taskAPI = {
-    getTask(todolistId: string) {
+    getTasks(todolistId: string) {
         return instance.get(`todo-lists/${todolistId}/tasks/`);
     },
     createTask(title: string, todolistId: string) {

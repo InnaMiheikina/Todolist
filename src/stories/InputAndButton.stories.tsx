@@ -1,7 +1,5 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import { Button } from './Button';
 import {InputAndButton} from "../components/InputAndButton";
 import {action} from "@storybook/addon-actions";
 
@@ -22,5 +20,12 @@ export const InputAndButtonStories = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 InputAndButtonStories.args = {
   callback: action('button clicked inside form')
+};
+
+
+export const InputAndButtonDisableStories = Template.bind({});
+InputAndButtonDisableStories.args = {
+    callback: action('button clicked inside form'),
+    disabled:true
 };
 

@@ -3,17 +3,18 @@ import {AddToPhotosOutlined} from "@material-ui/icons";
 import {TextField} from "@material-ui/core";
 
 
-type InputPropsType = {
+type InputAndButtonPropsType = {
     callback: (newTaskTitle: string) => void
+    disabled?:boolean
 }
 
-export const InputAndButton = memo((props: InputPropsType) => {
+export const InputAndButton = memo(({callback,disabled=false}: InputAndButtonPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('');
     const [error, setError] = useState<string | null>(null)
 
     const addItem = () => {
         if (newTaskTitle.trim()) {    //trim обрезает пробелы по краям
-            props.callback(newTaskTitle.trim());
+            callback(newTaskTitle.trim());
             setNewTaskTitle('')
         } else {
             setError('Title is required');
@@ -34,6 +35,7 @@ export const InputAndButton = memo((props: InputPropsType) => {
     return (
         <div style={{display: 'flex', alignItems: 'center'}}>
             <TextField
+                disabled={disabled}
                 size={'small'}
                 variant={'outlined'}
                 label={'Title'}
@@ -42,8 +44,8 @@ export const InputAndButton = memo((props: InputPropsType) => {
                 onKeyPress={onKeyPressHandler}
                 className={error ? 'error' : ''} // чтобы работал на кнопку "enter"// класс для инпута если есть error
             />
-            <AddToPhotosOutlined color={'action'} type={'outlined'}
-                                 onClick={addItem}>{'+'}</AddToPhotosOutlined>
+            <AddToPhotosOutlined color={disabled ? 'disabled' : 'action'}  type={'outlined'}
+                                 onClick={addItem} >{'+'}</AddToPhotosOutlined>
             {error && <div className="error-message">{error}</div>}
         </div>
     )

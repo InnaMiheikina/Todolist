@@ -1,10 +1,10 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
 import {Button, Checkbox, ListItem} from "@material-ui/core";
-import {InputOnSpan} from "../InputOnSpan";
+import {InputOnSpan} from "./InputOnSpan";
 import {HighlightOff} from "@material-ui/icons";
-import {deleteTaskAC, updateTasksTC} from "./tasks-reducer";
+import {deleteTaskAC, updateTasksTC} from "./store/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/tasks-api";
-import {useAppDispatch} from "./store";
+import {useAppDispatch} from "./store/store";
 
 export type TaskTypeProps = {
     todolistId: string
@@ -37,7 +37,7 @@ const Task = (props:TaskTypeProps) => {
             />
             <InputOnSpan
                 title={title}
-                callBack={changeTaskTitle}
+                callback={changeTaskTitle}
                 classes={status===TaskStatuses.Completed ? "is-done" : ""}
             />
             <Button onClick={onRemoveHandler}>

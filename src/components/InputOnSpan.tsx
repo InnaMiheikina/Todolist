@@ -3,7 +3,7 @@ import {TextField} from "@material-ui/core";
 
 type InputOnSpanType = {
     title: string //title из таски и тдлисиста
-    callBack:(title:string)=> void //передает title вверх который только что напечатался
+    callback:(title:string)=> void //передает title вверх который только что напечатался
     classes: string
 }
 
@@ -17,7 +17,7 @@ export const InputOnSpan = memo((props: InputOnSpanType) => {
     }
     const offActive = () => {
         setActive(false)
-        props.callBack(title)//ф-я меняет тайтл
+        props.callback(title)//ф-я меняет тайтл
     }
     const onchangeInput = (e:ChangeEvent<HTMLInputElement>) => {setTitle(e.currentTarget.value)}
 

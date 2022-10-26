@@ -6,23 +6,24 @@ import {Button, ButtonGroup, List, Typography} from "@material-ui/core";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./store/store";
 import {
-    changeFilterAC,
+    changeTodolistFilterAC,
     deleteTodolistTC,
     TodolistDomainType,
     updateTodolistTC
 } from "./store/todolists-reducer";
-import Task from "./store/task";
+import Task from "./task";
 import { addTasksTC, setTasksTC} from "./store/tasks-reducer";
-import {TaskStatuses, TaskType} from "./api/tasks-api";
+import {TaskStatuses, TaskType} from "../api/tasks-api";
 
 
 type TodolistPropsType = {
     todolistId: string
+    demo?:boolean
 }
 
 
 
-export const Todolist = React.memo((props: TodolistPropsType) => {
+export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) => {
     const dispatch = useAppDispatch()
     let todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists.filter(el => el.id === props.todolistId)[0])
     let {id, title, filter} = todolist
@@ -45,29 +46,32 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }, [dispatch, id])
 
     const onAllClickHandler = useCallback(() => {
-        dispatch(changeFilterAC('all', id))
+        dispatch(changeTodolistFilterAC('all', id))
     }, [dispatch, 'all', id])
-    const onActiveClickHandler = useCallback(() => dispatch(changeFilterAC('active', id)), [dispatch, 'active', id])
-    const onCompletedClickHandler = useCallback(() => dispatch(changeFilterAC('completed', id)), [dispatch, 'completed', id])
+    const onActiveClickHandler = useCallback(() => dispatch(changeTodolistFilterAC('active', id)), [dispatch, 'active', id])
+    const onCompletedClickHandler = useCallback(() => dispatch(changeTodolistFilterAC('completed', id)), [dispatch, 'completed', id])
 
     const addTask = useCallback((newTaskTitle: string) => {
             dispatch(addTasksTC(newTaskTitle,props.todolistId))
         }, [dispatch, id]
     )
 useEffect(()=> {
+    if(demo){
+        return
+    }
     dispatch(setTasksTC(id))
 },[])
 
     return (
         <div>
             <Typography variant={'h5'}>
-                <InputOnSpan title={title} callBack={changeTitleTodolist} classes={''}/>
-                <Button onClick={deleteTodolist}>
+                <InputOnSpan title={title} callback={changeTitleTodolist} classes={''}/>
+                <Button onClick={deleteTodolist} disabled={todolist.entityStatus==='loading'}>
                     <HighlightOff/>
                 </Button>
             </Typography>
             <div>
-                <InputAndButton callback={addTask}/>
+                <InputAndButton callback={addTask} disabled={todolist.entityStatus==='loading'} />
             </div>
             <List>
                 {
