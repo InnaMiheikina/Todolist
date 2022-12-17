@@ -7,7 +7,7 @@ import {v1} from 'uuid'
 import {todolistsReducer} from "./todolists-reducer";
 import {AppRootStateType} from "./store";
 import {tasksReducer} from "./tasks-reducer";
-import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
+import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
 import thunk from "redux-thunk";
 import {appReducer} from "./app-reducer";
 
@@ -40,12 +40,17 @@ const initialGlobalState: AppRootStateType = {
     },
     app:{
         error:null,
-        status:'idle'
+        status:'idle',
+        isInitialized:false
+    },
+    auth: {
+        isLoggedIn:false
     }
+
 };
 
 
-export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as AppRootStateType,applyMiddleware(thunk));
+export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as AppRootStateType, applyMiddleware(thunk));
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => (
     <Provider

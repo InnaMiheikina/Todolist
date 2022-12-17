@@ -2,9 +2,9 @@ import React, {ChangeEvent, memo, useCallback} from 'react';
 import {Button, Checkbox, ListItem} from "@material-ui/core";
 import {InputOnSpan} from "./InputOnSpan";
 import {HighlightOff} from "@material-ui/icons";
-import {deleteTaskAC, updateTasksTC} from "./store/tasks-reducer";
+import { deleteTasksTC, updateTasksTC} from "../store/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/tasks-api";
-import {useAppDispatch} from "./store/store";
+import {useAppDispatch} from "../store/store";
 
 export type TaskTypeProps = {
     todolistId: string
@@ -17,7 +17,7 @@ const Task = (props:TaskTypeProps) => {
     let {id, title: title, status} = props.task
 
     const onRemoveHandler = useCallback(() => {
-        dispatch(deleteTaskAC(id, props.todolistId))
+        dispatch(deleteTasksTC(id, props.todolistId))
     }, [dispatch,id, props.todolistId])
 
     const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const Task = (props:TaskTypeProps) => {
     } , [dispatch,props.todolistId, id])// вызывает фуекция isDone
 
     const changeTaskTitle = useCallback( (newTaskTitle: string) => {
-        dispatch(updateTasksTC(id,props.todolistId,{newTaskTitle}))
+        dispatch(updateTasksTC(id,props.todolistId,{title:newTaskTitle}))
     }, [dispatch,id, props.todolistId ])
 
     return (

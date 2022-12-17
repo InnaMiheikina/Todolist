@@ -2,8 +2,8 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Task from "../components/task";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../components/store/store";
-import {ReduxStoreProviderDecorator} from "../components/store/ReduxStoreProviderDecorator";
+import {AppRootStateType} from "../store/store";
+import {ReduxStoreProviderDecorator} from "../store/ReduxStoreProviderDecorator";
 import {TaskPriorities, TaskStatuses, TaskType} from "../api/tasks-api";
 import {action} from "@storybook/addon-actions";
 

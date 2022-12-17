@@ -4,15 +4,15 @@ import {InputOnSpan} from "./InputOnSpan";
 import {HighlightOff} from "@material-ui/icons";
 import {Button, ButtonGroup, List, Typography} from "@material-ui/core";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "./store/store";
+import {AppRootStateType, useAppDispatch} from "../store/store";
 import {
     changeTodolistFilterAC,
     deleteTodolistTC,
     TodolistDomainType,
     updateTodolistTC
-} from "./store/todolists-reducer";
+} from "../store/todolists-reducer";
 import Task from "./task";
-import { addTasksTC, setTasksTC} from "./store/tasks-reducer";
+import { addTasksTC, setTasksTC} from "../store/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/tasks-api";
 
 

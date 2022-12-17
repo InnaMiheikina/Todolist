@@ -34,6 +34,14 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+export type updateTaskModelType = {
+    title:string
+    description:string
+    status:TaskStatuses
+    priority:TaskPriorities
+    startDate:string
+    deadline:string
+}
 
 export type ResponseTaskType  = {
   error:string|null
@@ -49,15 +57,15 @@ export type ResponseType <D = {}> = {
 
 export const taskAPI = {
     getTasks(todolistId: string) {
-        return instance.get(`todo-lists/${todolistId}/tasks/`);
+        return instance.get<ResponseTaskType>(`todo-lists/${todolistId}/tasks/`);
     },
     createTask(title: string, todolistId: string) {
-        return instance.post(`/todo-lists/${todolistId}/tasks`, {title});
+        return instance.post<ResponseType<{item:TaskType}>>(`/todo-lists/${todolistId}/tasks`, {title});
     },
      deleteTask(id:string,todolistId: string) {
-         return instance.delete(`todo-lists/${todolistId}/tasks/${id}`);
+         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${id}`);
      },
-    updateTask(id: string, todolistId: string,model:any) {
-        return instance.put(`todo-lists/${todolistId}/tasks/${id}`, model);
+    updateTask(id: string, todolistId: string, model:any) {
+        return instance.put<ResponseType<{item:TaskType}>>(`todo-lists/${todolistId}/tasks/${id}`, model);
     }
 }
