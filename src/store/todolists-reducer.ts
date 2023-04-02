@@ -1,6 +1,5 @@
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
-import {RequestStatusType, setAppStatusAC, SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
-import {Dispatch} from "redux";
+import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {handleServerNetworkError} from "../utils/error-utils";
 import {AppThunk} from "./store";
 
@@ -35,7 +34,8 @@ export const todolistsReducer = (state = initialState, action: TodolistActionTyp
         case "CHANGE-TODOLIST-FILTER":
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
         case "CHANGE-TODOLIST-ENTITY-STATUS":
-        default: return state.map(tl => tl.id === action.id ? {...tl, entityStatus: action.status} : tl)
+            return state.map(tl => tl.id === action.id ? {...tl, entityStatus: action.status} : tl)
+        default:
             return state
     }
 }

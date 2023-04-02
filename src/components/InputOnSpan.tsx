@@ -2,8 +2,8 @@ import React, {ChangeEvent, memo, useState} from 'react';
 import {TextField} from "@material-ui/core";
 
 type InputOnSpanType = {
-    title: string //title из таски и тдлисиста
-    callback:(title:string)=> void //передает title вверх который только что напечатался
+    title: string
+    callback:(title:string)=> void
     classes: string
 }
 
@@ -13,11 +13,11 @@ export const InputOnSpan = memo((props: InputOnSpanType) => {
 
     const onActive = () => {
         setActive(true)
-        setTitle(props.title) //первоначальное засетай то что есть
+        setTitle(props.title)
     }
     const offActive = () => {
         setActive(false)
-        props.callback(title)//ф-я меняет тайтл
+        props.callback(title)
     }
     const onchangeInput = (e:ChangeEvent<HTMLInputElement>) => {setTitle(e.currentTarget.value)}
 
@@ -31,5 +31,4 @@ export const InputOnSpan = memo((props: InputOnSpanType) => {
             : <span style={{fontWeight:'bold'}} onDoubleClick={onActive}>{props.title}</span>
     );
 })
-//onBlur --кликаем мимо и деактив
-//autoFocus -- когда импут активируется фокус уже твм
+

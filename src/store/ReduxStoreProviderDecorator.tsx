@@ -55,4 +55,4 @@ export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState
 export const ReduxStoreProviderDecorator = (storyFn: any) => (
     <Provider
         store={storyBookStore}>{storyFn()}
-    </Provider>) //для провайдера
+    </Provider>)

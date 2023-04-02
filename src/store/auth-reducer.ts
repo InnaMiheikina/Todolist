@@ -4,7 +4,7 @@ import {handleServerAppError, handleServerNetworkError} from "../utils/error-uti
 import {AppThunk} from "./store";
 
 export const initialState: InitialStateType = {
-    isLoggedIn: false//залогинен или нет
+    isLoggedIn: false
 }
 type InitialStateType = { isLoggedIn: boolean }
 export const authReducer = (state: InitialStateType = initialState, action: AuthActionType): InitialStateType => {

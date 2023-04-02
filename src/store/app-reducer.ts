@@ -1,15 +1,10 @@
-import {stat} from "fs";
-import {Dispatch} from "redux";
 import {authAPI} from "../api/auth-api";
 import {setIsLoggedInAC} from "./auth-reducer";
 import {AppThunk} from "./store";
 
 export type InitialStateType = {
-    //происходит ли сейчас взаимодействие с сервером
     status: RequestStatusType,
-    //если ошибка произойдет запишкм текст ошибки сюда
     error: string | null
-    //true когда приложение проинициализировалось
     isInitialized: boolean
 }
 const initialState: InitialStateType = {

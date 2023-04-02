@@ -23,7 +23,7 @@ const Task = (props:TaskTypeProps) => {
     const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         let newIsDone = event.currentTarget.checked
         dispatch(updateTasksTC(id, props.todolistId,{status:newIsDone ? TaskStatuses.Completed:TaskStatuses.New}))
-    } , [dispatch,props.todolistId, id])// вызывает фуекция isDone
+    } , [dispatch,props.todolistId, id])
 
     const changeTaskTitle = useCallback( (newTaskTitle: string) => {
         dispatch(updateTasksTC(id,props.todolistId,{title:newTaskTitle}))
@@ -43,7 +43,6 @@ const Task = (props:TaskTypeProps) => {
             <Button onClick={onRemoveHandler}>
                 <HighlightOff/>
             </Button>
-            {/*el.id то что кидаем в функцию*/}
         </ListItem>
     )
 }

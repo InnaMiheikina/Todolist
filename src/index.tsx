@@ -6,7 +6,7 @@ import {createTheme, CssBaseline} from "@material-ui/core";
 import {ThemeProvider} from '@material-ui/core/styles';
 import {Provider} from "react-redux";
 import {store} from "./store/store";
-import AppRedux from "./App";
+import App from "./App";
 
 const theme = createTheme({
     palette: {
@@ -29,7 +29,7 @@ ReactDOM.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <AppRedux/>
+            <App />
         </ThemeProvider>
     </Provider>
     , document.getElementById('root'));

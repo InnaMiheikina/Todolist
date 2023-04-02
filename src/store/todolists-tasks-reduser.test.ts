@@ -21,4 +21,4 @@ test('ids should be equals', () => {
 
     expect(idFromTasks).toBe(action.item.id);
     expect(idFromTodolists).toBe(action.item.id);
-});// сравниваем что одна id из action
+});

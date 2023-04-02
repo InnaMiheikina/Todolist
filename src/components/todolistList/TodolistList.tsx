@@ -11,7 +11,7 @@ import { Navigate } from "react-router-dom";
 type todolistListType = {
     demo?:boolean
 }
-export const TodolistList:React.FC<todolistListType> = (props)=> {
+export const TodolistList:React.FC<todolistListType> = ({demo=false}:todolistListType)=> {
     let todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const isLoggedIn = useSelector<AppRootStateType,boolean>(state=> state.auth.isLoggedIn)
     let dispatch = useAppDispatch()
@@ -21,7 +21,7 @@ export const TodolistList:React.FC<todolistListType> = (props)=> {
     }, [dispatch])
 
     useEffect(() => {
-        if(props.demo || !isLoggedIn){
+        if(demo || !isLoggedIn){
             return
         }
         dispatch(setTodolistTC())
@@ -44,7 +44,7 @@ export const TodolistList:React.FC<todolistListType> = (props)=> {
                         return (
                             <Grid item key={tl.id}>
                                 <Paper elevation={8} style={{padding: '20px', maxWidth: '300px'}}>
-                                    <Todolist todolistId={tl.id} demo={props.demo}/>
+                                    <Todolist todolistId={tl.id} demo={demo}/>
                                 </Paper>
                             </Grid>
                         )

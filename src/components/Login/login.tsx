@@ -21,7 +21,6 @@ export type FormikErrorType = {
     rememberMe?: boolean
 }
 
-
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
@@ -73,9 +72,9 @@ export const Login = () => {
                         <TextField
                             label="Email"
                             margin="normal"
-                            {...formik.getFieldProps('email')}
+                            {...formik.getFieldProps('email')}//props
                         />
-                        {formik.touched.email && formik.errors.email && <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                        {formik.touched.email && formik.errors.email && <div style={{color: 'red'}}>{formik.errors.email}</div>} {/*ошибка*/}
                         <TextField
                             type="password"
                             label="Password"

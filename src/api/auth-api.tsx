@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {number, string} from "prop-types";
 import {ResponseType} from "./tasks-api";
 
 const instance = axios.create({

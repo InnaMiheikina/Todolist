@@ -12,18 +12,17 @@ import {
     updateTodolistTC
 } from "../store/todolists-reducer";
 import Task from "./task";
-import { addTasksTC, setTasksTC} from "../store/tasks-reducer";
+import {addTasksTC, setTasksTC} from "../store/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/tasks-api";
 
 
 type TodolistPropsType = {
     todolistId: string
-    demo?:boolean
+    demo?: boolean
 }
 
 
-
-export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) => {
+export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType) => {
     const dispatch = useAppDispatch()
     let todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists.filter(el => el.id === props.todolistId)[0])
     let {id, title, filter} = todolist
@@ -31,10 +30,10 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
 
     let prokladka = tasks;
     if (filter === 'active') {
-        prokladka = prokladka.filter(t => t.status===TaskStatuses.New)
+        prokladka = prokladka.filter(t => t.status === TaskStatuses.New)
     }
     if (filter === 'completed') {
-        prokladka = prokladka.filter(t => t.status===TaskStatuses.Completed)
+        prokladka = prokladka.filter(t => t.status === TaskStatuses.Completed)
     }
 
     const changeTitleTodolist = useCallback((title: string) => {
@@ -52,26 +51,26 @@ export const Todolist = React.memo(({demo=false, ...props}: TodolistPropsType) =
     const onCompletedClickHandler = useCallback(() => dispatch(changeTodolistFilterAC('completed', id)), [dispatch, 'completed', id])
 
     const addTask = useCallback((newTaskTitle: string) => {
-            dispatch(addTasksTC(newTaskTitle,props.todolistId))
+            dispatch(addTasksTC(newTaskTitle, props.todolistId))
         }, [dispatch, id]
     )
-useEffect(()=> {
-    if(demo){
-        return
-    }
-    dispatch(setTasksTC(id))
-},[])
+    useEffect(() => {
+        if (demo) {
+            return
+        }
+        dispatch(setTasksTC(id))
+    }, [])
 
     return (
         <div>
             <Typography variant={'h5'}>
                 <InputOnSpan title={title} callback={changeTitleTodolist} classes={''}/>
-                <Button onClick={deleteTodolist} disabled={todolist.entityStatus==='loading'}>
+                <Button onClick={deleteTodolist} disabled={todolist.entityStatus === 'loading'}>
                     <HighlightOff/>
                 </Button>
             </Typography>
             <div>
-                <InputAndButton callback={addTask} disabled={todolist.entityStatus==='loading'} />
+                <InputAndButton callback={addTask} disabled={todolist.entityStatus === 'loading'}/>
             </div>
             <List>
                 {

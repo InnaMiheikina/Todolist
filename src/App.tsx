@@ -15,7 +15,7 @@ import {useSelector} from "react-redux";
 import {TaskType} from "./api/tasks-api";
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import {initializedAppTC, RequestStatusType} from "./store/app-reducer";
-import {BrowserRouter, Navigate, Route, Routes,} from "react-router-dom";
+import {BrowserRouter, HashRouter, Navigate, Route, Routes,} from "react-router-dom";
 import {Login} from "./components/Login/login";
 import {TodolistList} from "./components/todolistList/TodolistList";
 import {logoutTC} from "./store/auth-reducer";
@@ -45,12 +45,12 @@ function App({demo = false}: PropsType) {
 
     if (!isInitialized) {
         return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-            <CircularProgress/>
+            <CircularProgress />
         </div>
     }
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div className="App">
                 < ErrorSnackbar/>
                 <AppBar position='fixed'>
@@ -74,7 +74,7 @@ function App({demo = false}: PropsType) {
                     </Routes>
                 </Container>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 

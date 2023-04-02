@@ -25,7 +25,5 @@ export const useAppDispatch = ()=> useDispatch<AppDispatch>()
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AppActionType>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionType>
 
-/*export type ThunkAppDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>
-export const useAppDispatch = () => useDispatch<ThunkAppDispatch>()*/
 //@ts-ignore
 window.store = store;

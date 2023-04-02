@@ -13,7 +13,7 @@ export const InputAndButton = memo(({callback,disabled=false}: InputAndButtonPro
     const [error, setError] = useState<string | null>(null)
 
     const addItem = () => {
-        if (newTaskTitle.trim()) {    //trim обрезает пробелы по краям
+        if (newTaskTitle.trim()) {
             callback(newTaskTitle.trim());
             setNewTaskTitle('')
         } else {
@@ -39,10 +39,10 @@ export const InputAndButton = memo(({callback,disabled=false}: InputAndButtonPro
                 size={'small'}
                 variant={'outlined'}
                 label={'Title'}
-                value={newTaskTitle}      /*начальное значение*///добавление в массив
-                onChange={onNewTitleChangeHandler}    /*обработчик события со значением*/
+                value={newTaskTitle}
+                onChange={onNewTitleChangeHandler}
                 onKeyPress={onKeyPressHandler}
-                className={error ? 'error' : ''} // чтобы работал на кнопку "enter"// класс для инпута если есть error
+                className={error ? 'error' : ''}
             />
             <AddToPhotosOutlined color={disabled ? 'disabled' : 'action'}  type={'outlined'}
                                  onClick={addItem} >{'+'}</AddToPhotosOutlined>
